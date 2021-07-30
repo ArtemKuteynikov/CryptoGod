@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p class="title">
+    Если во время использования у вас возникло какое-то пожелание или вы столкнулись с какой-то проблемой, напишите
+    об этом нам и мы ответим вам по электронной почте, которую вы указали в вашем профиле
+</p>
+<form method="post" action="{{url_for('main.support_post')}}">
+    <div class="field">
+        <div class="control">
+            <p class="title">Тип обращения:</p>
+            <select name="type" id="method_cipher" class="input is-large">
+                <option value="Пожелание">Пожелание</option>
+                <option value="Вопрос">Вопрос</option>
+                <option value="Жалоба">Жалоба</option>
+            </select>
+        </div>
+    </div>
+    <div class="field">
+        <div class="control">
+            <textarea class="textarea" id="text" name="text" rows="6" cols="50" placeholder="Опишите вашу проблему" required></textarea>
+        </div>
+    </div>
+    <button type="submit" name="submit"
+            class="button is-block is-info is-large is-fullwidth"
+            onclick="loading();"> {{_('Отправить')}}
+    </button>
+</form>
+{% endblock %}

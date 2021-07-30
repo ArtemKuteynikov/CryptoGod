@@ -1,0 +1,378 @@
+{% extends 'admin/master.html' %}
+{% block head %}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='logo_transparent.png') }}" type="image/png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+{% endblock %}
+{% block body %}
+<style>
+        /*@media (min-width: 1200px)*/
+        .container {
+            width: 98vw;
+        }
+        .row {
+            display: flex;
+            flex-direction: row; /* NEW */
+        }
+        @media screen and ( max-width: 500px ) {
+             .row { flex-direction: column; }
+           }
+    </style>
+    <!-- TradingView Widget BEGIN -->
+    <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js"
+                async>
+            {
+                "symbols"
+            :
+                [
+                    {
+                        "description": "ETH/USDT",
+                        "proName": "BINANCE:ETHUSDT"
+                    },
+                    {
+                        "description": "DOGE/USDT",
+                        "proName": "BINANCE:DOGEUSDT"
+                    },
+                    {
+                        "description": "BTC/USDT",
+                        "proName": "BINANCE:BTCUSDT"
+                    },
+                    {
+                        "description": "LTC/UDST",
+                        "proName": "BINANCE:LTCUSDT"
+                    },
+                    {
+                        "description": "XRP/USDT",
+                        "proName": "BINANCE:XRPUSDT"
+                    },
+                    {
+                        "description": "BNB/USDT",
+                        "proName": "BINANCE:BNBUSDT"
+                    },
+                    {
+                        "description": "AXS/USDT",
+                        "proName": "BINANCE:AXSUSDT"
+                    }
+                ],
+                    "showSymbolLogo"
+            :
+                true,
+                    "colorTheme"
+            :
+                "dark",
+                    "isTransparent"
+            :
+                true,
+                    "displayMode"
+            :
+                "adaptive",
+                    "locale"
+            :
+                "ru",
+                    "largeChartUrl"
+            :
+                "https://cryptogod.pythonanywhere.com/admin/"
+            }
+        </script>
+    </div>
+    <style>
+        .dropbtn {
+            background-color: #37bc9b;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropbtn:hover, .dropbtn:focus {
+            background-color: #37bc9b;
+        }
+
+        #myInput {
+            box-sizing: border-box;
+            background-image: url('searchicon.png');
+            background-position: 14px 12px;
+            background-repeat: no-repeat;
+            font-size: 16px;
+            padding: 14px 20px 12px 45px;
+            border: none;
+            border-bottom: 1px solid black;
+        }
+
+        #myInput:focus {
+            outline: 3px solid black;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: black;
+            min-width: 230px;
+            overflow: auto;
+            border: 1px solid black;
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown a:hover {
+            background-color: black;
+        }
+
+        .show {
+            display: block;
+        }
+    </style>
+    <div class="dropdown">
+        <button onclick="myFunction()" class="dropbtn">{{ cur }}</button>
+        <div id="myDropdown" class="dropdown-content">
+            <input type="text" placeholder="Поиск..." id="myInput" onkeyup="filterFunction()">
+            {% for i in coins %}
+                <a href="{{ url_for('admin.index', tvwidgetsymbol=i) }}">{{ i }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        /* When the user clicks on the button,
+        toggle between hiding and showing the dropdown content */
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        function filterFunction() {
+            var input, filter, ul, li, a, i;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            div = document.getElementById("myDropdown");
+            a = div.getElementsByTagName("a");
+            for (i = 0; i < a.length; i++) {
+                txtValue = a[i].textContent || a[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    a[i].style.display = "";
+                } else {
+                    a[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+    <style>
+        .section_1 {
+            float: right;
+            width: 49%;
+        }
+
+        .section_2 {
+            float: right;
+            width: 24%;
+            max-width: 500px;
+            min-width: 350px;
+        }
+    </style>
+    <!-- TradingView Widget BEGIN -->
+    <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-info.js"
+                async>
+            {
+                "symbol"
+            :
+                "BINANCE:{{ cur }}",
+                    "width"
+            :
+                "100%",
+                    "locale"
+            :
+                "ru",
+                    "colorTheme"
+            :
+                "dark",
+                    "isTransparent"
+            :
+                true,
+                    "largeChartUrl"
+            :
+                "https://cryptogod.pythonanywhere.com/admin/"
+            }
+        </script>
+    </div>
+    <!-- TradingView Widget END -->
+    <style>
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 100px;
+            height: 50px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ff0000;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 42px;
+            width: 42px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: #37bc9b;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #37bc9b;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(50px);
+            -ms-transform: translateX(50px);
+            transform: translateX(50px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+    </style>
+    <script type="text/javascript">
+        function buy_sell_fun() {
+            var checkbox = document.getElementById("buy_sell");
+            var label = document.getElementById("sell_buy_button");
+            if (checkbox.checked == false) {
+                label.value = "Продать";
+                label.style.background = "red";
+                label.style.border = "red";
+            } else {
+                label.value = "Купить";
+                label.style.background = "#37bc9b";
+                label.style.border = "#37bc9b";
+            }
+        }
+    </script>
+    <div class="row">
+        <!-- TradingView Widget BEGIN -->
+        <div class="tradingview-widget-container" style="min-width: 74%">
+            <div id="tradingview_28666"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+            <script type="text/javascript">
+                new TradingView.widget(
+                    {
+                        "width": "100%",
+                        "height": 610,
+                        "symbol": "BINANCE:{{ cur }}",
+                        "interval": "60",
+                        "timezone": "Europe/Moscow",
+                        "theme": "dark",
+                        "style": "1",
+                        "locale": "ru",
+                        "toolbar_bg": "#f1f3f6",
+                        "enable_publishing": true,
+                        "allow_symbol_change": true,
+                        "hide_side_toolbar": false,
+                        "details": true,
+                        "container_id": "tradingview_28666"
+                    }
+                );
+            </script>
+        </div>
+        <!-- TradingView Widget END -->
+        <div style="text-align: center" class="section_2">
+            <form action="{{ url_for('admin.sell_buy') }}" method="POST" role="form"
+                  class="admin-form form-horizontal"
+                  enctype="multipart/form-data">
+                <p style="text-align: center;">
+                    <b style="font-size: 32px;color: #ff0000;">Продать</b>
+                    <label class="switch">
+                        <input type="checkbox" name="buy_sell" id="buy_sell" onclick="buy_sell_fun();" checked>
+                        <span class="slider round" onclick="buy_sell_fun();"></span>
+                    </label>
+                    <b style="font-size: 32px;color: #37bc9b;">Купить</b></p>
+                <div class="form-group" hidden>
+                    <div class="col-md-10">
+                        <input id="cur" name="cur" value="{{ cur }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="company" class="col-md-2 control-label">
+                        Баланс:
+                    </label>
+                    <div class="col-md-10">
+                        <div id="result">{{ cur[:-4] }} - {{ val }}</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="company" class="col-md-2 control-label">
+                        Количество
+                    </label>
+                    <div class="col-md-10">
+                        <input class="form-control" id="earn" name="earn" type="text">
+                    </div>
+                </div>
+
+                <hr>
+                <div style="width: 100%;" class="form-group">
+                    <div class="col-md-offset-2 col-md-10 submit-row">
+                        <input style="background: #37bc9b; border-color: #37bc9b;" id="sell_buy_button" type="submit"
+                               class="btn btn-primary" value="Купить">
+                    </div>
+                </div>
+                <script>
+                    $(function () {
+                        $('#method_cipher_sell').change(function () {
+                            bal = $('#method_cipher_sell :selected').val();
+                            fetch('/admin/get_balance', {
+                                method: 'POST',
+                                body: JSON.stringify({'currency': bal})
+                            }).then(res => res.json()).then(_data => {
+                                document.getElementById('result').innerHTML = '<p>' + bal + ' - ' + _data.bal + '</p>';
+                                document.getElementById('price_result').innerHTML = _data.price + ' USDT</p>';
+                            })
+                        })
+                    });
+                </script>
+            </form>
+            <a style="width: 100%;" href="{{ url_for('admin.history', tvwidgetsymbol=cur) }}" class="badge badge-primary"><h5>История</h5>
+            </a>
+        </div>
+    </div>
+
+
+
+{% endblock %}

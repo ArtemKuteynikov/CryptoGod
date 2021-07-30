@@ -1,0 +1,227 @@
+{% extends 'admin/master.html' %}
+{% block head %}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='logo_transparent.png') }}" type="image/png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+{% endblock %}
+{% block body %}
+<style>
+        /*@media (min-width: 1200px)*/
+        .container {
+            width: 98vw;
+        }
+    </style>
+<!-- TradingView Widget BEGIN -->
+        <!-- TradingView Widget BEGIN -->
+        <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <script type="text/javascript"
+                    src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js"
+                    async>
+                {
+                    "symbols"
+                :
+                    [
+                        {
+                            "description": "ETH/USDT",
+                            "proName": "BINANCE:ETHUSDT"
+                        },
+                        {
+                            "description": "DOGE/USDT",
+                            "proName": "BINANCE:DOGEUSDT"
+                        },
+                        {
+                            "description": "BTC/USDT",
+                            "proName": "BINANCE:BTCUSDT"
+                        },
+                        {
+                            "description": "LTC/UDST",
+                            "proName": "BINANCE:LTCUSDT"
+                        },
+                        {
+                            "description": "XRP/USDT",
+                            "proName": "BINANCE:XRPUSDT"
+                        },
+                        {
+                            "description": "BNB/USDT",
+                            "proName": "BINANCE:BNBUSDT"
+                        },
+                        {
+                            "description": "AXS/USDT",
+                            "proName": "BINANCE:AXSUSDT"
+                        }
+                    ],
+                        "showSymbolLogo"
+                :
+                    true,
+                        "colorTheme"
+                :
+                    "dark",
+                        "isTransparent"
+                :
+                    true,
+                        "displayMode"
+                :
+                    "adaptive",
+                        "locale"
+                :
+                    "ru",
+                        "largeChartUrl"
+                :
+                    "https://cryptogod.pythonanywhere.com/admin/"
+                }
+            </script>
+        </div>
+<!-- TradingView Widget END -->
+    <a href="{{ url_for('admin.index', tvwidgetsymbol=cur) }}" class="badge badge-primary"><h5><--</h5></a>
+    <h1>История</h1>
+        <style>
+        .dropbtn {
+            background-color: #37bc9b;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropbtn:hover, .dropbtn:focus {
+            background-color: #37bc9b;
+        }
+
+        #myInput {
+            box-sizing: border-box;
+            background-image: url('searchicon.png');
+            background-position: 14px 12px;
+            background-repeat: no-repeat;
+            font-size: 16px;
+            padding: 14px 20px 12px 45px;
+            border: none;
+            border-bottom: 1px solid black;
+        }
+
+        #myInput:focus {
+            outline: 3px solid black;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: black;
+            min-width: 230px;
+            overflow: auto;
+            border: 1px solid black;
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown a:hover {
+            background-color: black;
+        }
+
+        .show {
+            display: block;
+        }
+    </style>
+    <div class="dropdown">
+        <button onclick="myFunction()" class="dropbtn">{{ cur }}</button>
+        <div id="myDropdown" class="dropdown-content">
+            <input type="text" placeholder="Поиск..." id="myInput" onkeyup="filterFunction()">
+            {% for i in coins %}
+                <a href="{{ url_for('admin.history', tvwidgetsymbol=i) }}">{{ i }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        /* When the user clicks on the button,
+        toggle between hiding and showing the dropdown content */
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        function filterFunction() {
+            var input, filter, ul, li, a, i;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            div = document.getElementById("myDropdown");
+            a = div.getElementsByTagName("a");
+            for (i = 0; i < a.length; i++) {
+                txtValue = a[i].textContent || a[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    a[i].style.display = "";
+                } else {
+                    a[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Время</th>
+            <th scope="col">Обозначение</th>
+            <th scope="col">Тип</th>
+            <th scope="col">Статус</th>
+            <th scope="col">Покупка/Продажа</th>
+            <th scope="col">Количество</th>
+            <th scope="col">Стоимость</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if history %}
+            {% for i in history[::-1] %}
+                {% if i.status == 'FILLED' %}
+                    <tr class="bg-success">
+                        <th scope="row">{{ i.orderId }}</th>
+                        <td>{{ datetime.datetime.fromtimestamp(i.time/1000).strftime("%d-%m-%Y %H:%M:%S") }}</td>
+                        <td>{{ i.symbol }}</td>
+                        <td>{{ i.type }}</td>
+                        <td>{{ i.status }}</td>
+                        <td>{{ i.side }}</td>
+                        <td>{{ i.origQty }}</td>
+                        <td>{{ i.cummulativeQuoteQty }}</td>
+                        <td></td>
+                    </tr>
+                {% elif i.status == 'NEW' %}
+                    <tr class="bg-success">
+                        <th scope="row">{{ i.orderId }}</th>
+                        <td>{{ datetime.datetime.fromtimestamp(i.time/1000).strftime("%d-%m-%Y %H:%M:%S") }}</td>
+                        <td>{{ i.symbol }}</td>
+                        <td>{{ i.type }}</td>
+                        <td>{{ i.status }}</td>
+                        <td>{{ i.side }}</td>
+                        <td>{{ i.origQty }}</td>
+                        <td>{{ i.cummulativeQuoteQty }}</td>
+                        <td><a href="{{ url_for('admin.cancel', tvwidgetsymbol=cur, orderid=i.orderId) }}"  class="badge badge-danger">Cancel</a></td>
+                    </tr>
+                {% else %}
+                    <tr class="bg-danger">
+                        <th scope="row">{{ i.orderId }}</th>
+                        <td>{{ datetime.datetime.fromtimestamp(i.time/1000).strftime("%d-%m-%Y %H:%M:%S") }}</td>
+                        <td>{{ i.symbol }}</td>
+                        <td>{{ i.type }}</td>
+                        <td>{{ i.status }}</td>
+                        <td>{{ i.side }}</td>
+                        <td>{{ i.origQty }}</td>
+                        <td>{{ i.cummulativeQuoteQty }}</td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        </tbody>
+    </table>
+{% endblock %}

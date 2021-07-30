@@ -1,0 +1,33 @@
+{% extends 'admin/master.html' %}
+{% block head %}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='logo_transparent.png') }}" type="image/png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+{% endblock %}
+{% block body %}
+    <style>
+        /*@media (min-width: 1200px)*/
+        .container {
+            width: 98vw;
+        }
+        .row {
+            display: flex;
+            flex-direction: row; /* NEW */
+        }
+        @media screen and ( max-width: 500px ) {
+             .row { flex-direction: column; }
+           }
+    </style>
+    <div style="text-align:center">
+        <h3>Последние новости в мире криптовалют</h3>
+        <br><br>
+        {% for new in news %}
+            <div class="row" style="text-align: center; align-items: center;">
+                <img src="{{ new.imageurl }}" style="max-width: 20%;">
+                <div style="min-width: 80%"><a href="{{ new.url }}"><h4>{{ new.title }}</h4></a>
+                    <p>{{ new.body }}</p>
+                </div>
+            </div>
+            <br><br>
+        {% endfor %}
+    </div>
+{% endblock %}

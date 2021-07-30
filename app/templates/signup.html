@@ -1,0 +1,69 @@
+<!-- templates/signup.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+    <style>
+        #content {
+            margin: 0;
+            padding: 0;
+            background: url('https://www.cre.ru/content/upload/news/1573819487041.jpg') 100% 100% no-repeat; /* Добавляем фон */
+            background-size: cover;
+            color: #fffccf;
+        }
+
+        .footer {
+            display: none;
+        }
+    </style>
+    <div class="column is-4 is-offset-4">
+        <h3 class="title">{{ _('Регистрация') }}</h3>
+        <div class="box">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="notification is-danger">
+                        {{ messages[0] }}. {{ _('На') }} <a
+                            href="{{ url_for('auth.login') }}">{{ _('страницу регистрации') }}</a>.
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <form method="POST" action="{{ url_for('auth.signup') }}">
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-large" type="email" name="email" placeholder="Email" autofocus=""
+                               required>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-large" type="text" name="name" placeholder="{{ _('ФИО') }}" autofocus=""
+                               required>
+                    </div>
+                </div>
+                    <div class="control">
+                        <input class="input is-large" type="password" name="password" placeholder="{{ _('Пароль') }}"
+                               required>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-large" type="password" name="conf_password"
+                               placeholder="{{ _('Подтвердите пароль') }}" required>
+                    </div>
+                </div>
+                <button class="button is-block is-info is-large is-fullwidth"
+                        onclick="loading();">{{ _('Зарегистрироваться') }}</button>
+            </form>
+            <nav class="navbar" align="center" role="navigation">
+                <div class="container has-text-centered">
+                    <a href="{{ url_for('auth.login') }}" class="navbar-item">
+                        {{ _('Войти') }}
+                    </a>
+                    <a href="{{ url_for('auth.signup') }}" class="navbar-item is-active" style="color: #0000cc">
+                        {{ _('Зарегистрироваться') }}
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </div>
+{% endblock %}

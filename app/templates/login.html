@@ -1,0 +1,61 @@
+<!-- templates/login.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+        #content {
+            margin: 0;
+            padding: 0;
+            background: url('https://www.cre.ru/content/upload/news/1573819487041.jpg') 100% 100% no-repeat; /* Добавляем фон */
+            background-size: cover;
+            color: #fffccf;
+        }
+        .footer {
+            display:none;
+        }
+    </style>
+<div class="column is-4 is-offset-4" style="align-items: center">
+        <h3 class="title">{{_('Вход')}}</h3>
+        <div class="box">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="notification is-danger">
+                        {{ messages[0] }}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <form method="POST" action="{{ url_for('auth.login') }}">
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-large" type="email" name="email" placeholder="{{_('Email')}}" autofocus="">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-large" type="password" name="password" placeholder="{{_('Пароль')}}">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="checkbox">
+                        <input type="checkbox">
+                        {{_('Запомнить меня')}}
+                    </label>
+                </div>
+                <button class="button is-block is-info is-large is-fullwidth">{{_('Войти')}}</button>
+            </form>
+            <a href="{{url_for('auth.res_pass')}}">{{_('Забыл Пароль')}}</a>
+        <nav class="navbar" align="center">
+            <div class="container has-text-centered" style="position: center">
+            <a href="{{ url_for('auth.login') }}" class="navbar-item is-active is-primary" style="color: #0000cc">
+                {{_('Войти')}}
+            </a>
+            <a href="{{ url_for('auth.signup') }}" class="navbar-item">
+                {{_('Зарегистрироваться')}}
+            </a>
+            </div>
+        </nav>
+        </div>
+    </div>
+{% endblock %}

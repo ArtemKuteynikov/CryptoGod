@@ -1,0 +1,12 @@
+<!-- templates/signup_after.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+  {{_('Регистрация почти завершена!')}}
+</h1>
+<h2 class="subtitle">
+  {{_('Вам на почту')}} {{email}} {{_('придет письмо, перейдите по ссылке, чтобы подтвердить свой аккаунт')}}
+</h2>
+{% endblock %}

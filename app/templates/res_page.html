@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="column is-4 is-offset-4">
+        <h3 class="title">Login</h3>
+        <div class="box">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="notification is-danger">
+                        {{ messages[0] }}
+                        {% for button in messages[1:] %}
+                            {% for i in button %}
+                                <button class="button is-block is-info is-small" type="button"
+                                        onclick="addTextToInput(this)">{{ i }}</button>
+                            {% endfor %}{% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <form method="POST" action="{{url_for('auth.res_pass')}}">
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-large" type="email" name="email" placeholder="{{_('Email')}}" id="jaloby">
+                    </div>
+                </div>
+                <script>
+                    function addTextToInput(anElement) {
+                        text = anElement.innerText;
+                        document.getElementById('jaloby').value = text;
+                    }</script>
+                <button class="button is-block is-info is-large is-fullwidth" onclick="loading();">{{_('Сбросить пароль')}}</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

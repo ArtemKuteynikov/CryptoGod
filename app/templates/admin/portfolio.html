@@ -1,0 +1,283 @@
+{% extends 'admin/master.html' %}
+{% block head %}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='logo_transparent.png') }}" type="image/png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src='https://cdn.plot.ly/plotly-2.2.0.min.js'></script>
+    <script type = "text/JavaScript">
+         <!--
+            function AutoRefresh( t ) {
+               setTimeout("location.reload(true);", t);
+            }
+         //-->
+         document.body.onload = AutoRefresh( 300000 );
+      </script>
+{% endblock %}
+{% block body %}
+<style>
+        /*@media (min-width: 1200px)*/
+        .container {
+            width: 98vw;
+        }
+        .row {
+            display: flex;
+            flex-direction: row; /* NEW */
+        }
+
+        @media screen and ( max-width: 500px ) {
+             .row { flex-direction: column; }
+           }
+    </style>
+<!-- TradingView Widget BEGIN -->
+    <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js"
+                async>
+            {
+                "symbols"
+            :
+                [
+                    {
+                        "description": "ETH/USDT",
+                        "proName": "BINANCE:ETHUSDT"
+                    },
+                    {
+                        "description": "DOGE/USDT",
+                        "proName": "BINANCE:DOGEUSDT"
+                    },
+                    {
+                        "description": "BTC/USDT",
+                        "proName": "BINANCE:BTCUSDT"
+                    },
+                    {
+                        "description": "LTC/UDST",
+                        "proName": "BINANCE:LTCUSDT"
+                    },
+                    {
+                        "description": "XRP/USDT",
+                        "proName": "BINANCE:XRPUSDT"
+                    },
+                    {
+                        "description": "BNB/USDT",
+                        "proName": "BINANCE:BNBUSDT"
+                    },
+                    {
+                        "description": "AXS/USDT",
+                        "proName": "BINANCE:AXSUSDT"
+                    }
+                ],
+                    "showSymbolLogo"
+            :
+                true,
+                    "colorTheme"
+            :
+                "dark",
+                    "isTransparent"
+            :
+                true,
+                    "displayMode"
+            :
+                "adaptive",
+                    "locale"
+            :
+                "ru",
+                    "largeChartUrl"
+            :
+                "https://cryptogod.pythonanywhere.com/admin/"
+            }
+        </script>
+    </div>
+<!-- TradingView Widget END -->
+<div style="text-align: center;">
+<h3>Инвестиционный портфель криптовалют:</h3><br><br>
+</div>
+<div class="row">
+
+
+    </div>
+    <div class="row">
+        <div style="text-align: center;     width: 100%;">
+    <h6><i>В валюте портфеля:</i></h6> <h5><b>{{ all }}</b> $</h5>
+
+
+    <div><h5><i id="profit">
+        {% if profit_today > 0 %}
+        <h  style="color: #00897b;">
+        +{{ profit_today }}$({{ profit_percent_today }}%)
+        </h>
+        {% else %}
+        <h  style="color: #ff0000;">
+        {{ profit_today }}$({{ profit_percent_today }}%)
+        </h>
+        {% endif %}
+    </i></h5></div>
+
+    <select id='selector' style="color: white; background: black;">
+        <option value='today' selected>Сегодня</option>
+        <option value='yesterday'>Вчера</option>
+        <option value='all_time'>Все время</option>
+    </select>
+    <script>
+        $(function() {
+          var color = 'black';
+
+          $('#selector').change(function() {
+            val = $(this).val();
+            if (val == 'today'){
+                if ("{{ profit_percent_today > 0 }}" == "True"){
+                    $('#profit').html("<h  style='color: #00897b;'>+{{ profit_today }}$(+{{ profit_percent_today }}%)</h>")
+                }
+                else {
+                    $('#profit').html("<h  style='color: #ff0000;'>{{ profit_today }}$({{ profit_percent_today }}%)</h>")
+                }
+            }
+            else if (val == 'yesterday'){
+                if ("{{ profit_percent_yesterday > 0 }}" == "True"){
+                    $('#profit').html("<h  style='color: #00897b;'>+{{ profit_yesterday }}$(+{{ profit_percent_yesterday }}%)</h>")
+                }
+                else {
+                    $('#profit').html("<h  style='color: #ff0000;'>{{ profit_yesterday }}$({{ profit_percent_yesterday }}%)</h>")
+                }
+            }
+            else {
+                if ("{{ profit_percent_all_time > 0 }}" == "True"){
+                    $('#profit').html("<h  style='color: #00897b;'>+{{ profit_all_time }}$(+{{ profit_percent_all_time }}%)</h>")
+                }
+                else {
+                    $('#profit').html("<h  style='color: #ff0000;'>{{ profit_all_time }}$({{ profit_percent_all_time }}%)</h>")
+                }
+            }
+            $('#profit').css('color', color);
+          });
+        });
+    </script>
+    <h6><i>Свободные средства:</i></h6> <h5><b>{{ free }}</b> $</h5>
+    </div>
+    <div style=" text-align: center;     width: 100%;"><h4>Состав портфеля:</h4>
+    <div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
+    <script>
+        var data = [
+            {
+                values: [{% for i in balances %} "{{ i }}", {% endfor %}],
+                type: 'pie',
+                text: [{% for i in currencies %} "{{ i }}", {% endfor %}],
+                hovertemplate: "<b>%{text}</b><br><br><i>Количество в валюте портфеля</i>:  %{value} USDT<br>",
+                showlegend: false
+            }
+        ];
+        var layout = {
+            plot_bgcolor: "black",
+            paper_bgcolor: "black",
+        };
+        Plotly.newPlot('myDiv', data, layout);
+    </script></div>
+    </div>
+    <br><br>
+    <div style="text-align: center;"><h4>Описание стратегии</h4>
+    <h6>Рыночно-нейтральная стратегия: на любом, и падающем и растущем рынке присутствуют монеты, которые делают за день от 7% до 60%.</h6>
+    <h6>Клиенты одновременно инвестируют в валюты с нихкой суммарной капитализацией и высоким потенциалом роста.
+    Критерии подбираются экспертами CryptoGod и меняются, если
+    перестают оправдывать себя. Таким образом клиенты стратегии постоянно имеют достаточно высокую прибыль и низкие риски.</h6></div>
+    <br><br>
+
+    <!--style>
+        .scroll-table-body {
+            max-height: 466px;
+            overflow-x: auto;
+            margin-top: 0px;
+        }
+
+        .scroll-table table {
+            width: 100%;
+            table-layout: fixed;
+            border: none;
+        }
+    </style>
+    <div class="scroll-table-body">
+        <table class="table" style="max-height: 300px;">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Время</th>
+                <th scope="col">Операция</th>
+            </tr>
+            </thead>
+            <tbody>
+            <style>
+                .bg-success{
+                    background-color: #77b300;
+                }
+                .bg-danger{
+                    background-color:#cc0000;
+                }
+            </style>
+            {% for i in operations[::-1] %}
+                {% if 'окупк' in i[1] %}
+                    <tr class="bg-success">
+                        <th scope="row">{{ i[0] }}</th>
+                        <td>{{ i[1] }}</td>
+                    </tr>
+                {% else %}
+                    <tr class="bg-danger">
+                        <th scope="row">{{ i[0] }}</th>
+                        <td>{{ i[1] }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div-->
+    <br><br>
+    <h4>Последние сделки</h4>
+    <div class="row">
+        {% for i in last_profit %}
+
+  <div style="width: 100%; text-align: center">
+{% if i.profit > 0 %}
+  <h4 style="color: #00897b;"><b>{{ i.asset }}</b> +{{ i.profit }}$ (+{{ i.profit_percent }}%)</h4>
+ {% else %}
+ <h4 style="color: #ff0000;"><b>{{ i.asset }}</b> {{ i.profit }}$ ({{ i.profit_percent }}%)</h4>
+ {% endif %}
+ <b>{{ i.date }}</b>
+  <!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+  <div class="tradingview-widget-container__widget"></div>
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+  {
+  "symbol": "BINANCE:{{ i.asset }}",
+  "width": "100%",
+  "colorTheme": "dark",
+  "isTransparent": true,
+  "locale": "ru",
+  "largeChartUrl": "https://cryptogod.pythonanywhere.com/admin/"
+}
+  </script>
+</div>
+<!-- TradingView Widget END -->
+  </div>
+{% endfor %}
+</div>
+    <div style="
+    text-align: center;">
+    <h3>Прибыль:</h1>
+    <div id='myDiv1'><!-- Plotly chart will be drawn inside this DIV --></div>
+    <script>
+        var data = [
+            {
+                type: 'scatter',
+                mode: 'lines+markers',
+                x: [{% for i in times %} "{{ i }}", {% endfor %}],
+                y: [{% for i in values %} "{{ i }}", {% endfor %}],
+                hovertemplate: 'Портфель: %{y:$.2f}<br>%{x}<extra></extra>',
+                showlegend: false
+            },
+        ];
+
+        var layout = {
+            plot_bgcolor: "black",
+            paper_bgcolor: "black",
+        };
+
+        Plotly.newPlot('myDiv1', data, layout);
+    </script>
+    </div>
+
+{% endblock %}

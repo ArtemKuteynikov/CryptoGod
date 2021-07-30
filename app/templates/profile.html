@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+
+            <div class="notification is-danger">
+                <a class="delete" href="{{ url_for('main.profile') }}"></a>
+                {{ messages[0] }}.
+            </div>
+        {% endif %}
+    {% endwith %}
+    <nav class="u-menu u-menu-dropdown u-offcanvas u-menu-1" data-responsive-from="MD" style="width: 50%">
+        <div id="navbarMenuHeroA" class="navbar-menu has-dropdown">
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-item">
+                    Редактировать профиль
+                </a>
+
+                <div class="navbar-dropdown is-boxed">
+                    <a class="navbar-item" id="search_btn_2">Binance</a>
+                    <a class="navbar-item" id="search_btn_1">Сменить пароль</a>
+                </div>
+            </div>
+        </div>
+
+    </nav>
+
+    <div id="results">
+        <div class="column is-4 is-offset-4" style="align-items: center">
+            {% if current_user.role == 2 %}
+                <p class="title">Профиль</p>
+            {% elif current_user.role == 0 %}
+                <p class="title">Профиль</p>
+            {% endif %}
+            <div class="box">
+                <img src="{{ url_for('static', filename='logo_transparent.png') }}" type="image/png"
+                     style="height: 100px; width: 100px; position: center">
+                <table class="table is-striped">
+                    <tr>
+                        <td>
+                            <p style="position: relative; right: 0; top:50%">ФИО: </p>
+                        </td>
+                        <td>
+                            {{ current_user.name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            E-mail:
+                        </td>
+                        <td>
+                            {{ current_user.email }}
+                        </td>
+                    </tr>
+                    {% if info.authorised == 'Ok' %}
+                        <tr>
+                            <td>
+                                Binance аккаунт:
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Торговля:
+                            </td>
+                            <td>
+                                {{ info.canTrade }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Вывод средств:
+                            </td>
+                            <td>
+                                {{ info.canWithdraw }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Депозиты:
+                            </td>
+                            <td>
+                                {{ info.canDeposit }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Доступы:
+                            </td>
+                            <td>
+                                {% for i in info.permissions %}
+                                    <a class="is-primary">{{ i }}</a>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td>
+                                Binance аккаунт:
+                            </td>
+                            <td>
+                                {{ info.authorised }}
+                            </td>
+                        </tr>
+                    {% endif %}
+                </table>
+                <form action="{{ url_for('auth.logout') }}">
+                    <button class="button is-block is-info is-large is-fullwidth" onclick="loading();"
+                            style="position: center">
+                        Выйти
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        $(function () {
+            $("#search_btn_1").click(function () {
+                var s = "{{ url_for('main.change_password') }}"
+                $.get(s).done(function (data) {
+
+                    $('#results').html(data);
+
+                });
+            });
+        });
+        $(function () {
+            $("#search_btn_2").click(function () {
+                var s = "{{ url_for('main.change_name') }}"
+                $.get(s).done(function (data) {
+                    $('#results').html(data);
+
+                });
+            });
+        });
+    </script>
+
+{% endblock %}

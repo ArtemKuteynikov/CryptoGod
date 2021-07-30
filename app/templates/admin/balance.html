@@ -1,0 +1,96 @@
+{% extends 'admin/master.html' %}
+{% block head %}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='logo_transparent.png') }}" type="image/png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+{% endblock %}
+{% block body %}
+<!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+    <style>
+        /*@media (min-width: 1200px)*/
+        .container {
+            width: 98vw;
+        }
+    </style>
+        <!-- TradingView Widget BEGIN -->
+        <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <script type="text/javascript"
+                    src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js"
+                    async>
+                {
+                    "symbols"
+                :
+                    [
+                        {
+                            "description": "ETH/USDT",
+                            "proName": "BINANCE:ETHUSDT"
+                        },
+                        {
+                            "description": "DOGE/USDT",
+                            "proName": "BINANCE:DOGEUSDT"
+                        },
+                        {
+                            "description": "BTC/USDT",
+                            "proName": "BINANCE:BTCUSDT"
+                        },
+                        {
+                            "description": "LTC/UDST",
+                            "proName": "BINANCE:LTCUSDT"
+                        },
+                        {
+                            "description": "XRP/USDT",
+                            "proName": "BINANCE:XRPUSDT"
+                        },
+                        {
+                            "description": "BNB/USDT",
+                            "proName": "BINANCE:BNBUSDT"
+                        },
+                        {
+                            "description": "AXS/USDT",
+                            "proName": "BINANCE:AXSUSDT"
+                        }
+                    ],
+                        "showSymbolLogo"
+                :
+                    true,
+                        "colorTheme"
+                :
+                    "dark",
+                        "isTransparent"
+                :
+                    true,
+                        "displayMode"
+                :
+                    "adaptive",
+                        "locale"
+                :
+                    "ru",
+                        "largeChartUrl"
+                :
+                    "https://cryptogod.pythonanywhere.com/admin/"
+                }
+            </script>
+        </div>
+<!-- TradingView Widget END -->
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Тикер</th>
+            <th scope="col">Количество(FREE)</th>
+            <th scope="col">Количество(LOCKED)</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for i in balance %}
+            {% if i.free != '0.00000000' and i.free != '0.00' %}
+            <tr>
+                <th scope="row">{{ i.asset }}</th>
+                <td>{{ i.free }}</td>
+                <td>{{ i.locked }}</td>
+            </tr>
+            {%  endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

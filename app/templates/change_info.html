@@ -1,0 +1,20 @@
+<div class="notification is-link">
+
+    <form action="{{url_for('auth.edit_name')}}" method=post enctype=multipart/form-data>
+
+        <h1>{{'Key:'}}</h1>
+        <label>
+            <input class="input is-large" type="text" name="key" placeholder="{{'Key:'}}"
+                   autofocus="" value="{{ current_user.key }}">
+        </label>
+        <h1>{{'Secret:'}}</h1>
+        <label>
+            <input class="input is-large" type="tel" name="secret" placeholder="{{'Secret:'}}"
+                   autofocus="" value="{{ current_user.secret }}">
+        </label>
+        <button type="submit" name="submit" value="{{ id }}"
+                class="button is-block is-info is-large is-fullwidth"
+                onclick="loading();"> Ok
+        </button>
+    </form>
+</div>

@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "poetic-shell-315117",
+  "private_key_id": "c7490a582b95e279870cc4b2cf782cbf655f943b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCp9KwlswTNuthq\ncyZt18xm4Dg1QlpOdoDahSMbCJzhf4gwkDLH6NMKaYywsZFwULy/N+RAvHv1zGHr\nncyBUsMXuEL77WTmFZNdH5egyPNSXddWNMIGAF3QgLTs+GHqbLehFIaSKZk8CEpo\nR6JgTnFWdHrhXhEZe80GcHqMksE2LDZJRkLhxxiUcxfQVXX201oVsllqCvjmSZEB\nEa+QDn2279ZMOdkexh3uQHvlLisiEiQQckAX507RQeObk5rTXCHtJeVP9hszFPNf\nxw/zjOB+tItsireAP22BGH4pBDFtuKNCZ3IRFpT09erO1hC67pHdTG9hw7fNxyu3\nOthi6xX1AgMBAAECggEADflQmC7uc63rsmDyZXCrXUANTw+8Fhx3PsBYoRXltELE\no12P11EE3SPNjg+jii0RP9WsHkiBFrYtzO4mDPINmWssksMzmxlmCu+Yi39KRljx\n5iQjWdP44rZaaeuIPXqf5I4n/GeQMlfqKkXNi4aXmgisu8/8rvA3bNKduOYuHbKF\nWJylnBLBsjuiKuHLyZXHjh1e8j/XoQqRQDkXp+1fIyB6JE+GcCV3uQVOZDhGI7dw\nVGAJkQPW/gXNiWGV3z9s7Cptco7CXTYUvfwh7jqB5CfcFaGXrcp2GNh8BoU278pP\nAytBmxtCcD29sJhRk9AApCq47sHQh6vFlRT3djbmBwKBgQDsUUHETvdXzRIdIes2\nUsFvO8YjAZhyL0tlqDmvpsKVVSiD/DMV/vTv3YUmFjYRPJ77s7/PtSrJ5eEqz1JA\nXRyOMWP6ygtXFBK0Ge9qtI9SYjpfb6BhRCwC3CpePiLYFxEYRknO3fIqQhKzGBPW\nqjLhdsL7H/FB/3ixwksaB+3niwKBgQC4HHT79kDbsWP0B4TkkpVqG6eDIO7o01ic\nnhI6J+lZHrDokY57fzgEu8LkqmEyYy1124D2KtjVgCMNi2BjYLBm4Yivx4pTz+7v\n6BcSzrT00SoJhVoDygBGpFUbDDI1661fQRXhazVyTNSiwi8hzlYL8Qfq0NW/ll/m\nZu5XChaofwKBgA+9VcEKdWTurq8sDCuBFYsgExFP0OSCC+aIbtcpJzqlAl7QFGL5\nqTy0p2KjBhTd0cT38uWVrnTmD7o3NsY8rWM3HO6eOGUjXB+Mvqp/vjABhNvIZokz\n7i5+lX/TaaS03JmeTNovZCq2XeJ5zxB0I5FqxI/PT9VSe6pzQ2dHcewDAoGBALFh\nUWAzp9dCOB+zYtjpVSTu0dwnTaZpgPUb4km/jDV9uUnIevMG5czBrYqrkIuAPBtR\nyRTiwRgppRv2jX4ReMMWRZ+9astHCViATkKjfnpkTtDvdoMyCkQFLa2qeXGzx8x/\nI3qT1OFznmXVGp3Ccup8ZXlZjKZSVcDgqH6ZTK03AoGARPK0vWKOv3/nDsbVrx4Z\nDmSdWurGboxEN3pC7e2P+mQ3ZY55pFoLB7RbaHpDnFGjGqoNvAkzr+wudVWN6XoK\nwbhuhd8wYA922uyzvl2DT/uTfi4RW2TTaK/k+VK+fHQ1QnxcP/TkV7CrZU557sUs\nVuOUu/oTC2kXrdI9hRiy8WQ=\n-----END PRIVATE KEY-----\n",
+  "client_email": "handwritten-digits-recognition@poetic-shell-315117.iam.gserviceaccount.com",
+  "client_id": "113949333782439664492",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/handwritten-digits-recognition%40poetic-shell-315117.iam.gserviceaccount.com"
+}

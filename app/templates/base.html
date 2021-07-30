@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html style="font-size: 16px;">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="page_type" content="np-template-header-footer-from-plugin">
+    <title>CryptoGod</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='nicepage.css') }}" media="screen">
+    <script class="u-script" type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}"
+            defer=""></script>
+    <script class="u-script" type="text/javascript" src="{{ url_for('static', filename='nicepage.js') }}"
+            defer=""></script>
+    <meta name="generator" content="Nicepage 3.9.3, nicepage.com">
+    <link id="u-theme-google-font" rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i|Barlow:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i">
+    <link id="u-page-google-font" rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Barlow:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i">
+    {% block head %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}" media="screen">
+    {% endblock %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:500,800" rel="stylesheet">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='logo_transparent.png') }}" type="image/png">
+    <style>
+        html {
+
+            min-width: 300px;
+        }
+
+        #content {
+            margin: 0;
+            padding: 0;
+            background-color: #aaccff; /* Добавляем фон */
+            background-size: cover;
+            color: #000550;
+        }
+
+        #content_login {
+            margin: 0;
+            padding: 0;
+            background: url('https://www.cre.ru/content/upload/news/1573819487041.jpg') 100% 100% no-repeat; /* Добавляем фон */
+            background-size: cover;
+            color: #fffccf;
+        }
+
+        #okno {
+            width: 300px;
+            height: 50px;
+            text-align: center;
+            display: none;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 350%;
+            left: 0;
+            /*margin: auto;*/
+        }
+
+        #okno:target {
+            display: block;
+        }
+
+        #okno_1 {
+            width: 300px;
+            height: 50px;
+            text-align: center;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 350%;
+            left: 0;
+            margin: auto;
+        }
+
+        #okno_1:target {
+            display: block;
+        }
+
+        .close {
+            display: inline-block;
+            border: 1px solid #0000cc;
+            color: #0000cc;
+            padding: 0 12px;
+            margin: 10px;
+            text-decoration: none;
+            background: #00ff00;
+            font-size: 14pt;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            background: #00ff00;
+        }
+
+        div#subject {
+            display: none;
+        }
+
+        div#preloader {
+            /*фиксированное позиционирование*/
+            display: none;
+            position: fixed;
+            /* координаты положения */
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            /* фоновый цвет элемента */
+            background: #e0e0e0;
+            /* размещаем блок над всеми элементами на странице (это значение должно быть больше, чем у любого другого позиционированного элемента на странице) */
+            z-index: 1001;
+        }
+
+        .preloader__row {
+            position: relative;
+            top: 50%;
+            left: 50%;
+            width: 70px;
+            height: 70px;
+            margin-top: -35px;
+            margin-left: -35px;
+            text-align: center;
+            animation: preloader-rotate 2s infinite linear;
+        }
+
+        .preloader__item {
+            position: absolute;
+            display: inline-block;
+            top: 0;
+            background-color: #337ab7;
+            border-radius: 100%;
+            width: 35px;
+            height: 35px;
+            animation: preloader-bounce 2s infinite ease-in-out;
+        }
+
+        .preloader__item:last-child {
+            top: auto;
+            bottom: 0;
+            animation-delay: -1s;
+        }
+
+        @keyframes preloader-rotate {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes preloader-bounce {
+
+            0%,
+            100% {
+                transform: scale(0);
+            }
+
+            50% {
+                transform: scale(1);
+            }
+        }
+
+        .loaded_hiding .preloader {
+            transition: 0.3s opacity;
+            opacity: 0;
+        }
+
+        .loaded .preloader {
+            display: none;
+        }
+
+        #zatemnenie:target {
+            display: block;
+        }
+
+        .close {
+            display: inline-block;
+            border: 1px solid #0000cc;
+            color: #0000cc;
+            padding: 0 12px;
+            margin: 10px;
+            text-decoration: none;
+            background: #00ff00;
+            font-size: 14pt;
+            cursor: pointer;
+        }
+
+        .navbar-item {
+            display: flex;
+        }
+
+        .navbar,
+        .navbar-menu,
+        .navbar-start,
+        .navbar-end {
+            align-items: stretch;
+            display: flex;
+            padding: 0;
+        }
+
+        .navbar-menu {
+            background-color: #fff0;
+            flex-grow: 1;
+            flex-shrink: 0;
+        }
+
+        .navbar-start {
+            justify-content: flex-start;
+            margin-right: auto;
+        }
+
+        .navbar-end {
+            justify-content: flex-end;
+            margin-left: auto;
+        }
+
+        .navbar .container {
+            display: flex;
+        }
+
+        .navbar-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .box {
+            display: inline-block;
+        }
+
+        @media screen and (max-width: 768px) {
+            #menu-toggle:checked + .nav-menu {
+                display: block;
+                width: 100%;
+            }
+        }
+
+        .nav-toggle {
+            cursor: pointer;
+            display: block;
+            height: 3.25rem;
+            position: relative;
+            width: 30rem;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.0/css/bulma.css"/>
+</head>
+<body class="u-body" style="height:100%;
+    width:100%;">
+<header class="u-clearfix u-header u-palette-2-base u-header" id="sec-2485" style="
+    background-color: #404040;
+">
+    <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
+        <a href="{{ url_for('main.index') }}" class="u-image u-logo u-image-1"><img
+                src="{{ url_for('static', filename='logo_transparent.png') }}" type="image/png"
+                style="width: 120px; position: center"></a>
+
+        <nav class="nav u-menu u-menu-dropdown u-offcanvas u-menu-1" style="background-color: transparent">
+            <div class="container">
+
+
+                <label for="menu-toggle" class="nav-toggle" style="width: 30rem;">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </label>
+                <input type="checkbox" id="menu-toggle" class="is-hidden"/>
+
+                <div class="nav-right nav-menu">
+
+                    {% if current_user.is_authenticated %}
+                        <a href="/admin" class="navbar-item">
+                            {{ 'Торговая прощадка' }}
+                        </a>
+                    {% endif %}
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('main.support') }}" class="navbar-item">
+                            {{ 'Техподдержка' }}
+                        </a>
+                    {% endif %}
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('main.profile') }}" class="navbar-item">
+                            <img src="{{ url_for('static', filename='10003.png') }}">{{ current_user.name }}
+                        </a>
+                    {% endif %}
+                    {% if not current_user.is_authenticated %}
+                        <a href="{{ url_for('auth.login') }}" class="navbar-item">
+                            {{ 'Войти/Зарегистрироваться' }}
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+
+    </div>
+</header>
+
+<section style="background-image: linear-gradient(#419A1C, #54BA87); min-height: 70%;" class="hero-body" id="sec-568a">
+    <!-- TradingView Widget BEGIN -->
+        <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <script type="text/javascript"
+                    src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js"
+                    async>
+                {
+                    "symbols"
+                :
+                    [
+                        {
+                            "description": "ETH/USDT",
+                            "proName": "BINANCE:ETHUSDT"
+                        },
+                        {
+                            "description": "DOGE/USDT",
+                            "proName": "BINANCE:DOGEUSDT"
+                        },
+                        {
+                            "description": "BTC/USDT",
+                            "proName": "BINANCE:BTCUSDT"
+                        },
+                        {
+                            "description": "LTC/UDST",
+                            "proName": "BINANCE:LTCUSDT"
+                        },
+                        {
+                            "description": "XRP/USDT",
+                            "proName": "BINANCE:XRPUSDT"
+                        },
+                        {
+                            "description": "BNB/USDT",
+                            "proName": "BINANCE:BNBUSDT"
+                        },
+                        {
+                            "description": "AXS/USDT",
+                            "proName": "BINANCE:AXSUSDT"
+                        }
+                    ],
+                        "showSymbolLogo"
+                :
+                    true,
+                        "colorTheme"
+                :
+                    "dark",
+                        "isTransparent"
+                :
+                    true,
+                        "displayMode"
+                :
+                    "adaptive",
+                        "locale"
+                :
+                    "ru",
+                        "largeChartUrl"
+                :
+                    "https://cryptogod.pythonanywhere.com/admin/"
+                }
+            </script>
+        </div>
+<!-- TradingView Widget END -->
+    <div class="container has-text-centered">
+        {% block content %}
+            <div class="u-clearfix u-sheet u-sheet-1"></div>
+        {% endblock %}
+    </div>
+</section>
+<footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-2692">
+    <div class="u-clearfix u-sheet u-sheet-1">
+        <h5 class="u-align-center u-text u-text-grey-40 u-text-1">Email:</h5>
+        <a href="mailto:artem@veberlab.ru"
+           class="u-border-active-none u-border-hover-none u-btn u-btn-rectangle u-button-style u-none u-text-body-color u-text-hover-palette-2-base u-btn-1">artem@veberlab.ru</a>
+    </div>
+</footer>
+</body>
+</html>

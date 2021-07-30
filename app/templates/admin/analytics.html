@@ -1,0 +1,222 @@
+{% extends "admin/master.html" %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='main_page.css') }}" media="screen">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='logo_transparent.png') }}" type="image/png">
+
+{% endblock %}
+
+{% block body %}
+<style>
+        /*@media (min-width: 1200px)*/
+        .container {
+            width: 98vw;
+        }
+    </style>
+<!-- TradingView Widget BEGIN -->
+    <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js"
+                async>
+            {
+                "symbols"
+            :
+                [
+                    {
+                        "description": "ETH/USDT",
+                        "proName": "BINANCE:ETHUSDT"
+                    },
+                    {
+                        "description": "DOGE/USDT",
+                        "proName": "BINANCE:DOGEUSDT"
+                    },
+                    {
+                        "description": "BTC/USDT",
+                        "proName": "BINANCE:BTCUSDT"
+                    },
+                    {
+                        "description": "LTC/UDST",
+                        "proName": "BINANCE:LTCUSDT"
+                    },
+                    {
+                        "description": "XRP/USDT",
+                        "proName": "BINANCE:XRPUSDT"
+                    },
+                    {
+                        "description": "BNB/USDT",
+                        "proName": "BINANCE:BNBUSDT"
+                    },
+                    {
+                        "description": "AXS/USDT",
+                        "proName": "BINANCE:AXSUSDT"
+                    }
+                ],
+                    "showSymbolLogo"
+            :
+                true,
+                    "colorTheme"
+            :
+                "dark",
+                    "isTransparent"
+            :
+                true,
+                    "displayMode"
+            :
+                "adaptive",
+                    "locale"
+            :
+                "ru",
+                    "largeChartUrl"
+            :
+                "https://cryptogod.pythonanywhere.com/admin/"
+            }
+        </script>
+    </div>
+<!-- TradingView Widget END -->
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+
+        <style>
+        .dropbtn {
+            background-color: #37bc9b;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropbtn:hover, .dropbtn:focus {
+            background-color: #37bc9b;
+        }
+
+        #myInput {
+            box-sizing: border-box;
+            background-image: url('searchicon.png');
+            background-position: 14px 12px;
+            background-repeat: no-repeat;
+            font-size: 16px;
+            padding: 14px 20px 12px 45px;
+            border: none;
+            border-bottom: 1px solid black;
+        }
+
+        #myInput:focus {
+            outline: 3px solid black;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: black;
+            min-width: 230px;
+            overflow: auto;
+            border: 1px solid black;
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown a:hover {
+            background-color: black;
+        }
+
+        .show {
+            display: block;
+        }
+    </style>
+    <div class="dropdown">
+        <button onclick="myFunction()" class="dropbtn">{{ currency }}</button>
+        <div id="myDropdown" class="dropdown-content">
+            <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+            {% for i in coins %}
+                <a href="{{ url_for('analytics.index', tvwidgetsymbol=i) }}">{{ i }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        /* When the user clicks on the button,
+        toggle between hiding and showing the dropdown content */
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        function filterFunction() {
+            var input, filter, ul, li, a, i;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            div = document.getElementById("myDropdown");
+            a = div.getElementsByTagName("a");
+            for (i = 0; i < a.length; i++) {
+                txtValue = a[i].textContent || a[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    a[i].style.display = "";
+                } else {
+                    a[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+    <div style="text-align: center">
+    <!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+  <div class="tradingview-widget-container__widget"></div>
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
+  {
+  "interval": "1h",
+  "width": "100%",
+  "isTransparent": true,
+  "height": "500",
+  "symbol": "BINANCE:{{ currency }}",
+  "showIntervalTabs": true,
+  "locale": "ru",
+  "colorTheme": "dark",
+  "largeChartUrl": "https://cryptogod.pythonanywhere.com/admin/"
+}
+  </script>
+</div>
+<!-- TradingView Widget END -->
+    </div>
+    <!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+  <div id="tradingview_d3c27"></div>
+  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+  <script type="text/javascript">
+  new TradingView.MediumWidget(
+  {
+  "symbols": [
+    [
+      "BTC",
+      "BINANCE:{{ currency }}|12M"
+    ]
+  ],
+  "chartOnly": false,
+  "width": "100%",
+  "height": "400",
+  "locale": "ru",
+  "colorTheme": "dark",
+  "gridLineColor": "rgba(42, 46, 57, 0)",
+  "trendLineColor": "#2962ff",
+  "fontColor": "#787b86",
+  "underLineColor": "rgba(41, 98, 255, 0.3)",
+  "underLineBottomColor": "rgba(41, 98, 255, 0)",
+  "isTransparent": true,
+  "autosize": false,
+  "container_id": "tradingview_d3c27"
+}
+  );
+  </script>
+</div>
+<!-- TradingView Widget END -->
+
+{% endblock body %}
